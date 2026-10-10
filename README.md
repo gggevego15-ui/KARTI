@@ -45,3 +45,18 @@ KARTI поддерживает формат Progressive Web App (PWA): посл�
 
 Включи GitHub Pages в **Settings → Pages → Deploy from a branch**, выбрав ветку `main` и папку `/(root)`. Установка PWA требует HTTPS (GitHub Pages предоставляет HTTPS для опубликованного сайта).
 
+
+## Build Android APK and Windows EXE
+
+The GitHub Actions workflow `.github/workflows/build-installers.yml` builds installable packages from the `pwa-install-ready` branch.
+
+1. Open the repository's **Actions** tab.
+2. Select **Build KARTI installers**.
+3. Click **Run workflow** and choose `pwa-install-ready`.
+4. When both jobs finish, open the workflow run and download the artifacts:
+   - `KARTI-Android-APK` contains `app-debug.apk`.
+   - `KARTI-Windows-EXE` contains the Windows setup installer.
+5. On Android, transfer `app-debug.apk` to the phone and open it. Android may ask you to allow installing apps from that file manager/browser; only proceed if you trust the file you built.
+6. On Windows, extract the downloaded artifact ZIP and run `KARTI-Setup-1.0.0-x64.exe`. Windows SmartScreen may warn because this initial build is unsigned.
+
+These are test builds, not store-ready signed releases. Maps, place search, and route planning still need an internet connection and public services may be blocked or rate-limited in some networks. The APK/EXE workflow itself must complete successfully before downloadable installers exist.
