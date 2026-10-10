@@ -3,6 +3,7 @@ name: Build KARTI installers
 on:
   workflow_dispatch:
   push:
+    tags: ['v*']
     branches: [pwa-install-ready]
     paths:
       - 'index.html'
@@ -16,7 +17,7 @@ on:
       - '.github/workflows/build-installers.yml'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   android-apk:
@@ -71,6 +72,8 @@ jobs:
         run: npm run build:web
       - name: Build Windows installer
         run: npm run dist:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
         with:
