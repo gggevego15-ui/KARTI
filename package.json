@@ -1,13 +1,13 @@
 {
   "name": "karti-app",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "KARTI maps and routes",
   "main": "electron-main.cjs",
   "scripts": {
     "build:web": "node scripts/prepare-web.cjs",
     "desktop": "npm run build:web && electron .",
-    "dist:win": "npm run build:web && electron-builder --win nsis --publish never",
+    "dist:win": "npm run build:web && node scripts/generate-installer-art.cjs && electron-builder --win nsis --publish never",
     "android:sync": "npm run build:web && cap sync android"
   },
   "dependencies": {
@@ -45,7 +45,10 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "installerSidebar": "build/installer-sidebar.bmp",
+      "uninstallerSidebar": "build/installer-sidebar.bmp",
+      "installerHeader": "build/installer-header.bmp"
     },
     "artifactName": "KARTI-Setup-${version}-${arch}.${ext}",
     "publish": [
