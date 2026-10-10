@@ -8,14 +8,14 @@
  <Window.Resources>
   <Style x:Key="GlassCard" TargetType="Border">
    <Setter Property="CornerRadius" Value="22"/><Setter Property="BorderBrush" Value="#55FFFFFF"/><Setter Property="BorderThickness" Value="1"/>
-   <Setter Property="Background"><Setter.Value><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#38FFFFFF" Offset="0"/><GradientStop Color="#14B6E8F7" Offset=".48"/><GradientStop Color="#1D9B8AFF" Offset="1"/></LinearGradientBrush></Setter.Value></Setter>
+   <Setter Property="Background"><Setter.Value><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#25FFFFFF" Offset="0"/><GradientStop Color="#20B6E8F7" Offset=".48"/><GradientStop Color="#249B8AFF" Offset="1"/></LinearGradientBrush></Setter.Value></Setter>
   </Style>
   <Style x:Key="TabButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
    <Setter Property="Background" Value="#18FFFFFF"/><Setter Property="BorderBrush" Value="#30FFFFFF"/><Setter Property="Padding" Value="16,9"/><Setter Property="FontSize" Value="12"/>
   </Style>
  </Window.Resources>
  <Grid>
-  <Border x:Name="RootSurface" CornerRadius="28" Background="#EC07111F" BorderBrush="#6EFFFFFF" BorderThickness="1">
+  <Border x:Name="RootSurface" CornerRadius="28" Background="#B807111F" BorderBrush="#6EFFFFFF" BorderThickness="1">
    <Border.Effect><DropShadowEffect Color="#5B66FF" BlurRadius="48" ShadowDepth="0" Opacity=".48"/></Border.Effect>
   </Border>
   <Ellipse x:Name="GlowLeft" Width="420" Height="300" Fill="#353DF4D8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-160,-145,0,0"><Ellipse.Effect><BlurEffect Radius="75"/></Ellipse.Effect></Ellipse>
@@ -43,10 +43,10 @@
    <Grid Grid.Row="2" Margin="0,0,0,12">
     <StackPanel x:Name="WelcomePanel" VerticalAlignment="Center" Margin="62,0">
      <Border Style="{StaticResource GlassCard}" Padding="12,7" HorizontalAlignment="Left" Margin="0,0,0,17" CornerRadius="12"><TextBlock Text="✦  KARTI ДЛЯ WINDOWS  •  V1.0.2" FontSize="10" Foreground="#D7FFF8"/></Border>
-     <TextBlock Text="Установка, но красиво." FontSize="34" FontWeight="SemiBold" TextWrapping="Wrap"/>
-     <TextBlock Text="Выбери место для KARTI и запусти установку в несколько кликов." FontSize="14" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,12,0,22" LineHeight="22"/>
+     <TextBlock Text="Твоя карта начинается здесь." FontSize="34" FontWeight="SemiBold" TextWrapping="Wrap"/>
+     <TextBlock Text="Установи KARTI и открой для себя новый способ исследовать мир." FontSize="14" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,12,0,22" LineHeight="22"/>
      <Border Style="{StaticResource GlassCard}" Padding="17">
-      <StackPanel><TextBlock Text="ПАПКА ИМЯ И ПУТЬ" FontSize="10" Foreground="#B9D2E2"/>
+      <StackPanel><TextBlock Text="МЕСТО УСТАНОВКИ" FontSize="10" Foreground="#B9D2E2"/>
        <Grid Margin="0,10,0,0"><TextBox x:Name="FolderBox" TextChanged="FolderBox_TextChanged" Background="#1BFFFFFF" Foreground="#F5FBFF" BorderBrush="#55FFFFFF" BorderThickness="1" Padding="11,10" FontSize="12" CaretBrush="White" SelectionBrush="#8075E7FF"/><Button Content="Обзор…" Width="88" Padding="7,8" HorizontalAlignment="Right" Click="Browse_Click" Margin="0,0,4,0" FontSize="12"/></Grid>
       </StackPanel>
      </Border>
