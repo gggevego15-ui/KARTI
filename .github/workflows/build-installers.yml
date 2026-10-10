@@ -71,7 +71,14 @@ jobs:
       - name: Prepare web app
         run: npm run build:web
       - name: Build Windows installer
-        run: npm run dist:win
+        shell: pwsh
+        run: |
+          npm run build:web
+          if ($env:GITHUB_REF -like 'refs/tags/v*') {
+            npx electron-builder --win nsis --publish always
+          } else {
+            npx electron-builder --win nsis --publish never
+          }
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Windows installer
