@@ -11,9 +11,9 @@
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <title>KARTI — исследуй мир</title>
   <meta name="description" content="KARTI — простая интерактивная карта для поиска мест и построения маршрутов.">
-  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">\n  <link rel="preconnect" href="https://basemaps.cartocdn.com">
   <link rel="preconnect" href="https://tile.openstreetmap.org">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
     :root{color-scheme:dark;--bg:#0b1020;--panel:#111827;--panel2:#182235;--line:#26344a;--muted:#91a0b8;--text:#f4f7fb;--accent:#8b7cff;--accent2:#5eead4}
     *{box-sizing:border-box}html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}button,input{font:inherit}button{cursor:pointer}
@@ -27,6 +27,39 @@
     .map-shell{position:relative;min-width:0;min-height:0;background:#dfe6e9}#map{height:100%;width:100%;background:#dfe6e9}.map-top{position:absolute;z-index:400;top:18px;left:18px;right:18px;display:flex;justify-content:space-between;gap:10px;pointer-events:none}.map-chip{pointer-events:auto;display:flex;align-items:center;gap:8px;background:#111827eb;border:1px solid #334155;border-radius:12px;padding:11px 14px;box-shadow:0 8px 30px #0b102025;font-size:12px;color:#dbe4f2;backdrop-filter:blur(12px)}.map-chip strong{color:#fff}.map-chip .sub{color:var(--muted)}.map-tools{position:absolute;z-index:400;right:18px;top:90px;display:grid;gap:8px}.map-tool{width:42px;height:42px;border-radius:12px;border:1px solid #d1d9df;background:#fff;color:#26344a;box-shadow:0 4px 14px #17203320;display:grid;place-items:center;font-size:20px}.map-tool:hover{background:#f0edff;border-color:#a99fff}.toast{position:absolute;z-index:600;left:50%;bottom:25px;transform:translate(-50%,15px);opacity:0;pointer-events:none;transition:.25s;background:#111827;color:#fff;border:1px solid #334155;border-radius:12px;padding:12px 16px;font-size:12px;box-shadow:0 10px 35px #11182735;max-width:calc(100% - 30px)}.toast.show{opacity:1;transform:translate(-50%,0)}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#111827;color:#f4f7fb}.leaflet-popup-content{font-size:12px;line-height:1.6}.leaflet-container a{color:#a99fff}.leaflet-control-zoom a{color:#1f2937!important}.leaflet-control-attribution{font-size:9px!important}
     @media(max-width:760px){.app{grid-template-columns:1fr;grid-template-rows:minmax(0,54vh) minmax(0,1fr)}.sidebar{border-right:0;border-bottom:1px solid var(--line);max-height:54vh;overflow-y:auto;overscroll-behavior:contain}.brand{padding:12px 15px 10px}.logo{height:34px;width:34px;border-radius:11px;font-size:20px}.brand h1{font-size:17px}.brand p{font-size:10px}.search-wrap{padding:0 13px 12px}.searchbox{height:43px}.quick .btn{padding:9px 8px}.section{padding:12px 15px}.section-title{margin-bottom:9px}.route-fields{grid-template-columns:1fr 1fr}.route-input{padding:0 8px;gap:7px}.route-input input{font-size:11px}.route-actions{margin-top:8px}.hint,.foot{display:none}#results{max-height:15vh;min-height:56px;overscroll-behavior:contain}.result{padding:7px}.result-icon{height:28px;width:28px}.result small{display:none}.map-top{top:9px;left:9px;right:62px}.map-chip{padding:9px 11px;font-size:10px}.map-tools{right:9px;top:65px}.map-tool{width:38px;height:38px}.toast{bottom:12px}}
     @media(max-width:420px){.section{padding:10px 12px}.route-fields{gap:6px}.route-input{height:39px}.quick{gap:5px}.quick .btn{font-size:10px;padding:9px 5px;gap:4px}.map-chip .sub{display:none}.map-top .map-chip:first-child{max-width:calc(100% - 6px);overflow:hidden;white-space:nowrap}.map-top .map-chip strong{overflow:hidden;text-overflow:ellipsis}}
+
+    :root{--bg:#07111f;--panel:#0c1a2b;--panel2:#13263b;--line:#203950;--muted:#91a8bd;--text:#f3f8fc;--accent:#65e6c2;--accent2:#a8f3df}
+    body{background:var(--bg);letter-spacing:.01em}.app{grid-template-columns:minmax(320px,390px) minmax(0,1fr)}
+    .sidebar{background:linear-gradient(165deg,#0e2033 0%,#091625 78%);border-right:1px solid #244157;min-width:0}
+    .brand{padding:25px 22px 20px}.logo{background:linear-gradient(145deg,#6cf0cb,#b9f7e5);box-shadow:0 8px 28px #45d8b533;color:#07231f;border-radius:13px}
+    .brand h1{letter-spacing:3px;font-size:23px}.brand p{font-size:12px;color:#8ba9be}
+    .searchbox{background:#10243a;border-color:#29455d;border-radius:15px;height:50px}.searchbox:focus-within{border-color:#65e6c2;box-shadow:0 0 0 3px #65e6c21c}
+    .quick{gap:7px}.btn{border-radius:12px;background:#142b41;border-color:#2a465d}.btn:hover{background:#1a3850;border-color:#4b7188}
+    .btn.primary{background:#65e6c2;border-color:#65e6c2;color:#06241f}.btn.primary:hover{background:#8cf1d6}
+    .section{border-top-color:#1d3449}.section-title{font-size:11px;letter-spacing:1.1px;color:#d4e6f2}.pill{background:#163d42;color:#8ff0d5}
+    .route-input{background:#081827;border-color:#244057;border-radius:12px;height:46px}.route-input:focus-within{border-color:#65e6c2}
+    .dot{background:#65e6c2;box-shadow:0 0 0 4px #65e6c21a}.dot.end{background:#ff8d9b;box-shadow:0 0 0 4px #ff8d9b1a}
+    .hint{color:#829db2}.result{border-radius:13px}.result:hover{background:#10263a;border-color:#28475f}
+    .result-icon{background:#153b3d;color:#83f0d2;border-radius:11px}.result strong{font-size:13px}.result small{font-size:11px;color:#8ba4b8}
+    .empty{color:#8ba4b8}.foot{border-top-color:#20394e;color:#718ba0}
+    .map-chip{background:#071827ed;border-color:#2d4b60;border-radius:14px;box-shadow:0 12px 34px #05111f35}.map-tool{border-radius:13px}
+    .map-tool:hover{background:#e7fff7;border-color:#65cdb3}.toast{border-color:#31536a;border-radius:14px}
+    @media(max-width:760px){
+      .app{grid-template-columns:1fr;grid-template-rows:minmax(0,55vh) minmax(0,1fr)}
+      .sidebar{max-height:55vh;overflow-y:auto;overscroll-behavior:contain}
+      .brand{padding:12px 15px 9px}.logo{height:33px;width:33px}.brand h1{font-size:18px}
+      .search-wrap{padding:0 13px 10px}.searchbox{height:43px}.quick{gap:5px}.quick .btn{padding:9px 6px;font-size:10px}
+      .section{padding:11px 14px}.section-title{margin-bottom:8px}.route-fields{grid-template-columns:1fr 1fr}.route-input{height:40px}
+      .route-actions{margin-top:7px}#results{max-height:14vh;min-height:54px}.result{padding:7px}.result-icon{height:27px;width:27px}
+      .result small,.hint,.foot{display:none}.map-top{top:8px;left:8px;right:57px}.map-chip{padding:9px 10px;font-size:10px}
+      .map-tools{right:8px;top:62px}.map-tool{height:38px;width:38px}.toast{bottom:10px}
+    }
+    @media(max-width:420px){
+      .app{grid-template-rows:minmax(0,57vh) minmax(0,1fr)}.sidebar{max-height:57vh}
+      .section{padding:9px 11px}.route-fields{gap:5px}.route-input{padding:0 7px;gap:6px}.route-input input{font-size:11px}
+      .quick .btn{font-size:9px;padding:9px 4px;gap:3px}.map-chip .sub{display:none}
+    }
+
   </style>
 </head>
 <body>
@@ -57,12 +90,33 @@
       <div class="toast" id="toast" role="status"></div>
     </section>
   </main>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script>
     (() => {
       const $ = id => document.getElementById(id);
-      const map = L.map('map', {zoomControl:false, worldCopyJump:true}).setView([25, 8], 3);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors'}).addTo(map);
+      const map = L.map('map', {zoomControl:false, worldCopyJump:true, preferCanvas:true}).setView([25, 8], 3);
+      const tileSources = [
+        {name:'Carto Voyager',url:'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',options:{subdomains:'abcd',maxZoom:20,attribution:'&copy; OpenStreetMap contributors &copy; CARTO'}},
+        {name:'OpenStreetMap',url:'https://tile.openstreetmap.org/{z}/{x}/{y}.png',options:{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}},
+        {name:'OSM DE',url:'https://tile.openstreetmap.de/{z}/{x}/{y}.png',options:{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}}
+      ];
+      let tileSourceIndex=0, tileErrorCount=0, tileLayer;
+      function useTileSource(index){
+        tileSourceIndex=index;tileErrorCount=0;
+        if(tileLayer)map.removeLayer(tileLayer);
+        const source=tileSources[index];
+        tileLayer=L.tileLayer(source.url,Object.assign({},source.options,{keepBuffer:3,updateWhenIdle:true}));
+        tileLayer.on('tileerror',()=>{
+          tileErrorCount++;
+          if(tileErrorCount>=5&&tileSourceIndex<tileSources.length-1){
+            toast('Переключаем источник карты…');
+            useTileSource(tileSourceIndex+1);
+          }
+        });
+        tileLayer.on('load',()=>{if(tileSourceIndex===index){tileErrorCount=0;$('coordsChip').textContent='Карта загружена · '+source.name;}});
+        tileLayer.addTo(map);
+      }
+      useTileSource(0);
       L.control.zoom({position:'bottomright'}).addTo(map);
       let searchMarkers = [], pickedMarkers = [], routeMarkers = [], routeLayer = null, currentMarker = null, toastTimer, activeSearchController = null, searchSequence = 0;
       const markerIcon = L.divIcon({className:'',html:'<div style="width:30px;height:30px;background:#8b7cff;border:3px solid white;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 12px #27204b60"><div style="width:8px;height:8px;border-radius:50%;background:white;margin:8px"></div></div>',iconSize:[30,30],iconAnchor:[15,30],popupAnchor:[0,-28]});
