@@ -35,6 +35,8 @@ jobs:
           java-version: '17'
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: |\n            platform-tools\n            platforms;android-34\n            build-tools;34.0.0
       - name: Install dependencies
         run: npm install --no-audit --no-fund
       - name: Prepare web app
