@@ -46,6 +46,23 @@ KARTI поддерживает формат Progressive Web App (PWA): посл�
 Включи GitHub Pages в **Settings → Pages → Deploy from a branch**, выбрав ветку `main` и папку `/(root)`. Установка PWA требует HTTPS (GitHub Pages предоставляет HTTPS для опубликованного сайта).
 
 
+## Automatic updates
+
+- **Windows:** packaged Electron builds check GitHub Releases at launch and every six hours. Downloaded updates install after the app closes. A release must contain the installer and electron-builder update metadata; a branch build alone is not an update release.
+- **Website/PWA:** the service worker checks for a new app shell on launch, when the tab becomes visible, after reconnecting, and hourly. When a new worker is ready, KARTI offers an Update button and reloads after activation.
+- **Android APK:** KARTI checks the latest GitHub Release and shows an update link only when that release includes an APK asset. Android validates the APK signing certificate before allowing an in-place update; it cannot safely self-install silently.
+
+### Android release signing (required for in-place updates)
+
+The workflow's debug APK is for testing only and is not a stable update channel. To publish an updateable APK, configure these repository Actions secrets with a private keystore that you keep safe and reuse for every release:
+
+- `KARTI_ANDROID_KEYSTORE_BASE64`: Base64-encoded contents of the release keystore.
+- `KARTI_ANDROID_STORE_PASSWORD`: keystore password.
+- `KARTI_ANDROID_KEY_ALIAS`: key alias.
+- `KARTI_ANDROID_KEY_PASSWORD`: key password.
+
+Never commit the keystore or passwords to the repository. The workflow builds and attaches a signed APK to a tagged GitHub Release only when all four secrets are present. The first public Android installation must use that same signing key; an APK signed with a different key cannot update it in place. Existing debug APK installations may need to be uninstalled before switching to a release-signed build.
+
 ## Build Android APK and Windows EXE
 
 The GitHub Actions workflow `.github/workflows/build-installers.yml` builds installable packages from the `pwa-install-ready` branch.
