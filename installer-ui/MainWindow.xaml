@@ -15,9 +15,51 @@
   </Style>
  </Window.Resources>
  <Grid>
-  <Border x:Name="RootSurface" CornerRadius="28" Background="#B807111F" BorderBrush="#6EFFFFFF" BorderThickness="1">
-   <Border.Effect><DropShadowEffect Color="#5B66FF" BlurRadius="48" ShadowDepth="0" Opacity=".48"/></Border.Effect>
+  <Border x:Name="RootSurface" CornerRadius="28" Background="#78101A2A" BorderBrush="#8CFFFFFF" BorderThickness="1">
+   <Border.Effect><DropShadowEffect Color="#5B66FF" BlurRadius="54" ShadowDepth="0" Opacity=".56"/></Border.Effect>
   </Border>
+  <!-- Layered specular reflections: these stay visible even when Windows acrylic is unavailable. -->
+  <Border x:Name="GlassSheen" Margin="2" CornerRadius="26" IsHitTestVisible="False" BorderThickness="1">
+   <Border.BorderBrush>
+    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+     <GradientStop Color="#E8FFFFFF" Offset="0"/>
+     <GradientStop Color="#55D8FFF8" Offset=".22"/>
+     <GradientStop Color="#10FFFFFF" Offset=".55"/>
+     <GradientStop Color="#669A9DFF" Offset="1"/>
+    </LinearGradientBrush>
+   </Border.BorderBrush>
+   <Border.Background>
+    <LinearGradientBrush StartPoint="0,0" EndPoint="0.9,1">
+     <GradientStop Color="#42FFFFFF" Offset="0"/>
+     <GradientStop Color="#14C4FFF5" Offset=".12"/>
+     <GradientStop Color="#04FFFFFF" Offset=".42"/>
+     <GradientStop Color="#08A2A9FF" Offset=".78"/>
+     <GradientStop Color="#28FFFFFF" Offset="1"/>
+    </LinearGradientBrush>
+   </Border.Background>
+  </Border>
+  <Border x:Name="TopGlassReflection" Margin="3,3,3,0" Height="150" VerticalAlignment="Top" CornerRadius="25,25,110,110" IsHitTestVisible="False" Opacity=".9">
+   <Border.Background>
+    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+     <GradientStop Color="#2DFFFFFF" Offset="0"/>
+     <GradientStop Color="#14BDFBF0" Offset=".25"/>
+     <GradientStop Color="#00FFFFFF" Offset="1"/>
+    </LinearGradientBrush>
+   </Border.Background>
+  </Border>
+  <Rectangle x:Name="GlassLightStreak" Width="190" Height="690" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="125,0,0,0" IsHitTestVisible="False" Opacity=".34" RadiusX="95" RadiusY="95">
+   <Rectangle.Fill>
+    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+     <GradientStop Color="#00FFFFFF" Offset="0"/>
+     <GradientStop Color="#24FFFFFF" Offset=".42"/>
+     <GradientStop Color="#48D7FFF7" Offset=".5"/>
+     <GradientStop Color="#16FFFFFF" Offset=".62"/>
+     <GradientStop Color="#00FFFFFF" Offset="1"/>
+    </LinearGradientBrush>
+   </Rectangle.Fill>
+   <Rectangle.RenderTransform><RotateTransform Angle="-17" CenterX="95" CenterY="345"/></Rectangle.RenderTransform>
+   <Rectangle.Effect><BlurEffect Radius="12"/></Rectangle.Effect>
+  </Rectangle>
   <Ellipse x:Name="GlowLeft" Width="420" Height="300" Fill="#353DF4D8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-160,-145,0,0"><Ellipse.Effect><BlurEffect Radius="75"/></Ellipse.Effect></Ellipse>
   <Ellipse x:Name="GlowRight" Width="380" Height="320" Fill="#354F49FF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-140,-140"><Ellipse.Effect><BlurEffect Radius="80"/></Ellipse.Effect></Ellipse>
   <Grid Margin="30,22,30,24">
