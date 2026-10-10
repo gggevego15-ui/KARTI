@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@capacitor/android": "^6.2.1",
-    "@capacitor/core": "^6.2.1"
+    "@capacitor/core": "^6.2.1",
+    "electron-updater": "^6.6.2"
   },
   "devDependencies": {
     "@capacitor/cli": "^6.2.1",
@@ -46,6 +47,14 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true
     },
-    "artifactName": "KARTI-Setup-${version}-${arch}.${ext}"
+    "artifactName": "KARTI-Setup-${version}-${arch}.${ext}",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "gggevego15-ui",
+        "repo": "KARTI",
+        "releaseType": "release"
+      }
+    ]
   }
 }
