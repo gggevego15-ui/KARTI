@@ -7,7 +7,7 @@
   "scripts": {
     "build:web": "node scripts/prepare-web.cjs",
     "desktop": "npm run build:web && electron .",
-    "dist:win": "npm run build:web && electron-builder --win nsis",
+    "dist:win": "npm run build:web && electron-builder --win nsis --publish never",
     "android:sync": "npm run build:web && cap sync android"
   },
   "dependencies": {
