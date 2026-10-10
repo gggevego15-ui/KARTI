@@ -64,7 +64,7 @@ jobs:
         shell: pwsh
         run: |
           npm run build:web
-          if ($env:GITHUB_REF -like 'refs/tags/v*') {
+          if ($env:GITHUB_REF -like 'refs/tags/v*' -or $env:GITHUB_EVENT_NAME -eq 'workflow_dispatch') {
             npx electron-builder --win nsis --publish always
           } else {
             npx electron-builder --win nsis --publish never
