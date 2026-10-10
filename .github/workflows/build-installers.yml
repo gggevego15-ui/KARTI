@@ -109,26 +109,44 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
       - name: Install dependencies
         run: npm install --no-audit --no-fund
       - name: Prepare web app
         run: npm run build:web
-      - name: Build Windows installer
+      - name: Build inner KARTI payload installer
         shell: pwsh
         run: |
-          npm run build:web
+          Remove-Item dist -Recurse -Force -ErrorAction SilentlyContinue
           node scripts/generate-installer-art.cjs
-          if ($env:GITHUB_REF -like 'refs/tags/v*' -or $env:GITHUB_EVENT_NAME -eq 'workflow_dispatch') {
-            npx electron-builder --win nsis --publish always
-          } else {
-            npx electron-builder --win nsis --publish never
-          }
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          npx electron-builder --win nsis --publish never
+          $payload = Get-ChildItem dist -Filter '*.exe' | Select-Object -First 1
+          if (-not $payload) { throw "electron-builder did not produce the inner KARTI installer" }
+          New-Item -ItemType Directory -Force installer-ui/Payload | Out-Null
+          Copy-Item $payload.FullName installer-ui/Payload/KARTI-Setup-internal.exe
+      - name: Build custom Liquid Glass installer
+        shell: pwsh
+        run: |
+          dotnet publish installer-ui/KartiGlassInstaller.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o installer-ui/publish
+          $wrapper = "installer-ui/publish/KARTI-Liquid-Glass-Setup.exe"
+          if (-not (Test-Path $wrapper)) { throw "Custom Liquid Glass installer EXE was not generated" }
+          Copy-Item $wrapper dist/KARTI-Liquid-Glass-Setup.exe -Force
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
         with:
-          name: KARTI-Windows-EXE
-          path: dist/*.exe
+          name: KARTI-Liquid-Glass-Setup
+          path: dist/KARTI-Liquid-Glass-Setup.exe
           if-no-files-found: error
           retention-days: 14
+      - name: Attach custom setup and payload to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/KARTI-Liquid-Glass-Setup.exe
+            installer-ui/Payload/KARTI-Setup-internal.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
