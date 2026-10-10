@@ -1,4 +1,4 @@
-const { app, BrowserWindow, shell, dialog } = require('electron');
+const { app, BrowserWindow, shell, dialog, session } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const path = require('node:path');
 
@@ -23,6 +23,14 @@ function createWindow() {
   });
 }
 app.whenReady().then(() => {
+  // Electron may otherwise deny Chromium's geolocation request in a packaged app.
+  session.defaultSession.setPermissionRequestHandler((webContents, permission, callback) => {
+    const trusted = webContents.getURL().startsWith('file://') || webContents.getURL().startsWith('https://');
+    callback(permission === 'geolocation' && trusted);
+  });
+  session.defaultSession.setPermissionCheckHandler((webContents, permission, requestingOrigin) => {
+    return permission === 'geolocation' && (requestingOrigin.startsWith('file://') || requestingOrigin.startsWith('https://'));
+  });
   createWindow();
   // Packaged desktop builds check GitHub Releases for a newer signed installer.
   if (app.isPackaged) {
