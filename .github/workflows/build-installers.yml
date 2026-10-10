@@ -131,14 +131,14 @@ jobs:
         shell: pwsh
         run: |
           dotnet publish installer-ui/KartiGlassInstaller.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o installer-ui/publish
-          $wrapper = "installer-ui/publish/KARTI-Liquid-Glass-Setup.exe"
+          $wrapper = "installer-ui/publish/KARTI.exe"
           if (-not (Test-Path $wrapper)) { throw "Custom Liquid Glass installer EXE was not generated" }
-          Copy-Item $wrapper dist/KARTI-Liquid-Glass-Setup.exe -Force
+          Copy-Item $wrapper dist/KARTI.exe -Force
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
         with:
-          name: KARTI-Liquid-Glass-Setup
-          path: dist/KARTI-Liquid-Glass-Setup.exe
+          name: KARTI-Windows-Installer
+          path: dist/KARTI.exe
           if-no-files-found: error
           retention-days: 14
       - name: Attach custom setup and payload to GitHub Release
@@ -146,7 +146,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/KARTI-Liquid-Glass-Setup.exe
+            dist/KARTI.exe
             installer-ui/Payload/KARTI-Setup-internal.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
