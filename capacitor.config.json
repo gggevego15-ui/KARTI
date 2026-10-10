@@ -1,0 +1,9 @@
+{
+  "appId": "com.karti.app",
+  "appName": "KARTI",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "android": {
+    "allowMixedContent": false
+  }
+}
