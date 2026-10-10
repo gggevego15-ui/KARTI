@@ -12,6 +12,8 @@ permissions:
 jobs:
   android-apk:
     runs-on: ubuntu-latest
+    env:
+      KARTI_ANDROID_SIGNING_CONFIGURED: ${{ secrets.KARTI_ANDROID_KEYSTORE_BASE64 != '' && secrets.KARTI_ANDROID_STORE_PASSWORD != '' && secrets.KARTI_ANDROID_KEY_ALIAS != '' && secrets.KARTI_ANDROID_KEY_PASSWORD != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,7 +39,7 @@ jobs:
       - name: Sync Android project
         run: npx cap sync android
       - name: Configure stable Android release signing
-        if: ${{ secrets.KARTI_ANDROID_KEYSTORE_BASE64 != '' && secrets.KARTI_ANDROID_STORE_PASSWORD != '' && secrets.KARTI_ANDROID_KEY_ALIAS != '' && secrets.KARTI_ANDROID_KEY_PASSWORD != '' }}
+        if: ${{ env.KARTI_ANDROID_SIGNING_CONFIGURED == 'true' }}
         env:
           KARTI_ANDROID_KEYSTORE_BASE64: ${{ secrets.KARTI_ANDROID_KEYSTORE_BASE64 }}
           KARTI_ANDROID_STORE_PASSWORD: ${{ secrets.KARTI_ANDROID_STORE_PASSWORD }}
@@ -69,11 +71,11 @@ jobs:
           p.write_text(text)
           PY
       - name: Build signed Android release APK
-        if: ${{ secrets.KARTI_ANDROID_KEYSTORE_BASE64 != '' && secrets.KARTI_ANDROID_STORE_PASSWORD != '' && secrets.KARTI_ANDROID_KEY_ALIAS != '' && secrets.KARTI_ANDROID_KEY_PASSWORD != '' }}
+        if: ${{ env.KARTI_ANDROID_SIGNING_CONFIGURED == 'true' }}
         working-directory: android
         run: ./gradlew assembleRelease
       - name: Upload signed Android APK artifact
-        if: ${{ secrets.KARTI_ANDROID_KEYSTORE_BASE64 != '' && secrets.KARTI_ANDROID_STORE_PASSWORD != '' && secrets.KARTI_ANDROID_KEY_ALIAS != '' && secrets.KARTI_ANDROID_KEY_PASSWORD != '' }}
+        if: ${{ env.KARTI_ANDROID_SIGNING_CONFIGURED == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: KARTI-Android-Signed-APK
@@ -81,7 +83,7 @@ jobs:
           if-no-files-found: error
           retention-days: 14
       - name: Attach signed Android APK to GitHub Release
-        if: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.KARTI_ANDROID_KEYSTORE_BASE64 != '' && secrets.KARTI_ANDROID_STORE_PASSWORD != '' && secrets.KARTI_ANDROID_KEY_ALIAS != '' && secrets.KARTI_ANDROID_KEY_PASSWORD != '' }}
+        if: ${{ startsWith(github.ref, 'refs/tags/v') && env.KARTI_ANDROID_SIGNING_CONFIGURED == 'true' }}
         uses: softprops/action-gh-release@v2
         with:
           files: android/app/build/outputs/apk/release/app-release.apk
