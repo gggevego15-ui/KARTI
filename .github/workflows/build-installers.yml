@@ -36,6 +36,57 @@ jobs:
         run: npx cap add android
       - name: Sync Android project
         run: npx cap sync android
+      - name: Configure stable Android release signing
+        if: ${{ secrets.KARTI_ANDROID_KEYSTORE_BASE64 != '' && secrets.KARTI_ANDROID_STORE_PASSWORD != '' && secrets.KARTI_ANDROID_KEY_ALIAS != '' && secrets.KARTI_ANDROID_KEY_PASSWORD != '' }}
+        env:
+          KARTI_ANDROID_KEYSTORE_BASE64: ${{ secrets.KARTI_ANDROID_KEYSTORE_BASE64 }}
+          KARTI_ANDROID_STORE_PASSWORD: ${{ secrets.KARTI_ANDROID_STORE_PASSWORD }}
+          KARTI_ANDROID_KEY_ALIAS: ${{ secrets.KARTI_ANDROID_KEY_ALIAS }}
+          KARTI_ANDROID_KEY_PASSWORD: ${{ secrets.KARTI_ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KARTI_ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/karti-release.keystore
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path("android/app/build.gradle")
+          text = p.read_text()
+          signing = '''
+              signingConfigs {
+                  release {
+                      storeFile file("karti-release.keystore")
+                      storePassword System.getenv("KARTI_ANDROID_STORE_PASSWORD")
+                      keyAlias System.getenv("KARTI_ANDROID_KEY_ALIAS")
+                      keyPassword System.getenv("KARTI_ANDROID_KEY_PASSWORD")
+                  }
+              }
+          '''
+          if "signingConfigs {" not in text:
+              text = text.replace("    buildTypes {", signing + "\\n    buildTypes {", 1)
+          pattern = r"(buildTypes\\s*\\{\\s*release\\s*\\{)"
+          text, count = re.subn(pattern, r"\\1\\n            signingConfig signingConfigs.release", text, count=1)
+          if count != 1:
+              raise SystemExit("Could not safely configure release signing in generated Gradle file")
+          p.write_text(text)
+          PY
+      - name: Build signed Android release APK
+        if: ${{ secrets.KARTI_ANDROID_KEYSTORE_BASE64 != '' && secrets.KARTI_ANDROID_STORE_PASSWORD != '' && secrets.KARTI_ANDROID_KEY_ALIAS != '' && secrets.KARTI_ANDROID_KEY_PASSWORD != '' }}
+        working-directory: android
+        run: ./gradlew assembleRelease
+      - name: Upload signed Android APK artifact
+        if: ${{ secrets.KARTI_ANDROID_KEYSTORE_BASE64 != '' && secrets.KARTI_ANDROID_STORE_PASSWORD != '' && secrets.KARTI_ANDROID_KEY_ALIAS != '' && secrets.KARTI_ANDROID_KEY_PASSWORD != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: KARTI-Android-Signed-APK
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+          retention-days: 14
+      - name: Attach signed Android APK to GitHub Release
+        if: ${{ startsWith(github.ref, 'refs/tags/v') && secrets.KARTI_ANDROID_KEYSTORE_BASE64 != '' && secrets.KARTI_ANDROID_STORE_PASSWORD != '' && secrets.KARTI_ANDROID_KEY_ALIAS != '' && secrets.KARTI_ANDROID_KEY_PASSWORD != '' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: android/app/build/outputs/apk/release/app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug
