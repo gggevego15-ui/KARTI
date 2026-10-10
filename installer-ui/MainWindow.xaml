@@ -42,7 +42,7 @@
    </Border>
    <Grid Grid.Row="2" Margin="0,0,0,12">
     <StackPanel x:Name="WelcomePanel" VerticalAlignment="Center" Margin="62,0">
-     <Border Style="{StaticResource GlassCard}" Padding="12,7" HorizontalAlignment="Left" Margin="0,0,0,17" CornerRadius="12"><TextBlock Text="✦  ВЕРСИЯ KARTI ДЛЯ WINDOWS" FontSize="10" Foreground="#D7FFF8"/></Border>
+     <Border Style="{StaticResource GlassCard}" Padding="12,7" HorizontalAlignment="Left" Margin="0,0,0,17" CornerRadius="12"><TextBlock Text="✦  KARTI ДЛЯ WINDOWS  •  V1.0.2" FontSize="10" Foreground="#D7FFF8"/></Border>
      <TextBlock Text="Установка, но красиво." FontSize="34" FontWeight="SemiBold" TextWrapping="Wrap"/>
      <TextBlock Text="Выбери место для KARTI и запусти установку в несколько кликов." FontSize="14" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,12,0,22" LineHeight="22"/>
      <Border Style="{StaticResource GlassCard}" Padding="17">
