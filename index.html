@@ -80,27 +80,44 @@
       $('swapBtn').addEventListener('click',()=>{const a=$('fromInput').value;$('fromInput').value=$('toInput').value;$('toInput').value=a});
       async function resolvePoint(q){const coord=q.trim().match(/^(-?\d+(?:\.\d+)?)[, ]+(-?\d+(?:\.\d+)?)$/);if(coord){const lat=Number(coord[1]),lon=Number(coord[2]);if(Math.abs(lat)<=90&&Math.abs(lon)<=180)return {lat,lon,name:q}}const results=await geocode(q);if(!results.length)throw new Error('Не нашли место: '+q);return {lat:Number(results[0].lat),lon:Number(results[0].lon),name:results[0].display_name}}
       $('routeBtn').addEventListener('click',async()=>{const from=$('fromInput').value.trim(),to=$('toInput').value.trim();if(!from||!to){toast('Заполни оба поля маршрута');return}const btn=$('routeBtn');btn.disabled=true;btn.textContent='Строим…';try{const [a,b]=await Promise.all([resolvePoint(from),resolvePoint(to)]);const url='https://router.project-osrm.org/route/v1/driving/'+a.lon+','+a.lat+';'+b.lon+','+b.lat+'?overview=full&geometries=geojson';const res=await fetch(url);if(!res.ok)throw new Error('Сервис маршрутов временно недоступен');const data=await res.json();if(data.code!=='Ok'||!data.routes.length)throw new Error('Маршрут между этими точками не найден');if(routeLayer)map.removeLayer(routeLayer);routeLayer=L.geoJSON({type:'Feature',geometry:data.routes[0].geometry,properties:{}},{style:{color:'#6b5cff',weight:6,opacity:.88,lineCap:'round',lineJoin:'round'}}).addTo(map);const start=L.marker([a.lat,a.lon],{icon:pointIcon}).addTo(map).bindPopup('<strong>Старт</strong><br>'+safeText(a.name));const end=L.marker([b.lat,b.lon],{icon:markerIcon}).addTo(map).bindPopup('<strong>Финиш</strong><br>'+safeText(b.name));pickedMarkers.push(start,end);map.fitBounds(routeLayer.getBounds(),{padding:[55,55]});const r=data.routes[0];$('listTitle').textContent='Твой маршрут';$('resultCount').textContent='Готово';$('results').innerHTML='<div class="result"><div class="result-icon">↗</div><div><strong>'+safeText(a.name.split(',')[0])+' → '+safeText(b.name.split(',')[0])+'</strong><small>На автомобиле · '+(r.distance/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' км · около '+Math.round(r.duration/60)+' мин</small></div></div><div class="empty">Маршрут построен по дорожным данным OpenStreetMap через OSRM. Время и расстояние приблизительные.</div>';toast('Маршрут построен!')}catch(err){toast(err.message||'Не удалось построить маршрут')}finally{btn.disabled=false;btn.textContent='↗ Построить маршрут'}});
-      // Installable PWA support. Map tiles and search/routing services still require internet.
+      // Installable PWA support. Map tiles, search and routing still require internet.
       let deferredInstallPrompt = null;
       const installBtn = $('installBtn');
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+        || window.navigator.standalone === true;
+      const isAppleMobile = /iPhone|iPad|iPod/i.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      if (isStandalone) installBtn.textContent = '✓ KARTI установлено';
       window.addEventListener('beforeinstallprompt', event => {
         event.preventDefault();
         deferredInstallPrompt = event;
-        installBtn.textContent = '⇩ Установить';
+        installBtn.textContent = '⇩ Установить приложение';
       });
       installBtn.addEventListener('click', async () => {
-        if (!deferredInstallPrompt) {
-          toast(/iPhone|iPad|iPod/i.test(navigator.userAgent)
-            ? 'На iPhone: нажми «Поделиться» в Safari, затем «На экран Домой».'
-            : 'Открой меню браузера и выбери «Установить приложение» или «Добавить на главный экран».');
+        if (isStandalone) {
+          toast('KARTI уже открыто как установленное приложение.');
           return;
         }
-        deferredInstallPrompt.prompt();
-        const choice = await deferredInstallPrompt.userChoice;
-        if (choice && choice.outcome === 'accepted') toast('KARTI устанавливается на устройство');
+        if (!deferredInstallPrompt) {
+          if (isAppleMobile) {
+            toast('На iPhone/iPad открой KARTI в Safari: «Поделиться» → «На экран Домой».');
+          } else {
+            toast('Открой меню браузера и выбери «Установить приложение» или «Добавить на главный экран». Если пункта нет, сначала опубликуй сайт по HTTPS.');
+          }
+          return;
+        }
+        const promptEvent = deferredInstallPrompt;
         deferredInstallPrompt = null;
+        promptEvent.prompt();
+        const choice = await promptEvent.userChoice;
+        if (choice && choice.outcome === 'accepted') toast('KARTI устанавливается на устройство');
+        else toast('Установка пока не выполнена. Можно попробовать ещё раз из меню браузера.');
       });
-      window.addEventListener('appinstalled', () => toast('KARTI установлено!'));
+      window.addEventListener('appinstalled', () => {
+        installBtn.textContent = '✓ KARTI установлено';
+        toast('KARTI установлено!');
+      });
       if ('serviceWorker' in navigator && location.protocol !== 'file:') {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('./sw.js').catch(() => {
