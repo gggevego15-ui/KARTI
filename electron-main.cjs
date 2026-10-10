@@ -1,4 +1,5 @@
-const { app, BrowserWindow, shell } = require('electron');
+const { app, BrowserWindow, shell, dialog } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const path = require('node:path');
 
 function createWindow() {
@@ -23,6 +24,28 @@ function createWindow() {
 }
 app.whenReady().then(() => {
   createWindow();
+  // Packaged desktop builds check GitHub Releases for a newer signed installer.
+  if (app.isPackaged) {
+    autoUpdater.autoDownload = true;
+    autoUpdater.autoInstallOnAppQuit = true;
+    autoUpdater.on('update-downloaded', () => {
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'Обновление KARTI готово',
+        message: 'Обновление KARTI скачано и будет установлено после закрытия приложения.',
+        buttons: ['Понятно']
+      });
+    });
+    autoUpdater.on('error', (error) => {
+      console.error('KARTI auto-update failed:', error);
+    });
+    autoUpdater.checkForUpdatesAndNotify().catch(error => {
+      console.error('KARTI update check failed:', error);
+    });
+    setInterval(() => {
+      autoUpdater.checkForUpdatesAndNotify().catch(error => console.error('KARTI update check failed:', error));
+    }, 6 * 60 * 60 * 1000);
+  }
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
 });
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
