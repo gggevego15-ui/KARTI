@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#111827">
-  <meta name="karti-version" content="1.0.1">
+  <meta name="karti-version" content="1.0.2">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="KARTI">
   <meta name="mobile-web-app-capable" content="yes">
@@ -95,7 +95,33 @@
     .ai-form{padding:12px;display:flex;gap:7px;border-top:1px solid #d7f8ff20}.ai-input{min-width:0;flex:1;background:#ffffff0c;border:1px solid #d7f8ff30;border-radius:12px;color:white;padding:11px;outline:none}.ai-send,.ai-mic{border:1px solid #a9ffe755;border-radius:12px;background:#65e6c222;color:#b9ffeb;padding:0 12px;font-size:16px}.ai-hint{padding:0 14px 12px;color:#7f9eaf;font-size:10px;line-height:1.5}
     @media(max-width:760px){.app{grid-template-rows:minmax(0,55vh) minmax(0,1fr)}.ai-fab{right:12px;bottom:12px;padding:12px 14px;border-radius:15px}.ai-panel{right:10px;bottom:68px;width:calc(100% - 20px);height:min(440px,calc(100% - 85px))}.welcome-card{border-radius:26px}.welcome-mark{width:64px;height:64px;font-size:36px}.welcome h2{font-size:42px}}
     @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-\n  </style>
+\n
+    /* KARTI Liquid Glass — clear layered glass, not flat opaque panels */
+    :root{--glass-bg:rgba(12,29,47,.54);--glass-border:rgba(207,246,255,.24);--glass-light:rgba(255,255,255,.14)}
+    body{background:#07111f}
+    .app{isolation:isolate}
+    .sidebar{background:linear-gradient(145deg,rgba(13,36,55,.72),rgba(6,18,32,.66));backdrop-filter:blur(32px) saturate(175%);-webkit-backdrop-filter:blur(32px) saturate(175%);border-right:1px solid var(--glass-border);box-shadow:14px 0 50px #020b1680}
+    .brand{background:linear-gradient(120deg,#ffffff09,transparent 72%)}
+    .searchbox,.route-input,.btn,.result,.section,.foot{backdrop-filter:blur(24px) saturate(165%);-webkit-backdrop-filter:blur(24px) saturate(165%)}
+    .searchbox,.route-input{background:linear-gradient(135deg,#e5fbff12,#d5f4ff05);border:1px solid var(--glass-border);box-shadow:inset 0 1px #ffffff18,0 10px 28px #00000010}
+    .btn{background:linear-gradient(135deg,#e8fcff13,#d5f4ff06);border:1px solid #d7f8ff2b;box-shadow:inset 0 1px #ffffff20,0 8px 24px #0002;transition:transform .18s ease,border-color .18s ease,background .18s ease}
+    .btn:hover{transform:translateY(-1px);background:#dffaff1c;border-color:#c9f6ff70}
+    .btn.primary{background:linear-gradient(125deg,#74f1d0f5,#a9c9fff0);border-color:#e2fff5b0;color:#07251f;box-shadow:0 8px 28px #65e6c238,inset 0 1px #ffffffc9}
+    .section{border-top-color:#d8f7ff1c}
+    .result{border:1px solid transparent}
+    .result:hover{background:#e5fbff10;border-color:#d7f8ff26}
+    .map-chip{background:linear-gradient(135deg,rgba(12,32,49,.68),rgba(8,20,38,.48));backdrop-filter:blur(28px) saturate(170%);-webkit-backdrop-filter:blur(28px) saturate(170%);border-color:#d7f8ff42;box-shadow:0 12px 36px #0004,inset 0 1px #ffffff22}
+    .map-tool{background:linear-gradient(145deg,#f7ffffe8,#d8f7f3b8);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid #ffffffd0;box-shadow:0 8px 26px #07142135,inset 0 1px #fff}
+    .ai-fab{background:linear-gradient(130deg,rgba(112,246,211,.94),rgba(176,203,255,.92));border:1px solid #f0fff5b0;box-shadow:0 14px 42px #06111f70,inset 0 1px #ffffff}
+    .ai-panel{background:linear-gradient(145deg,rgba(16,42,62,.88),rgba(5,18,33,.84));backdrop-filter:blur(32px) saturate(170%);-webkit-backdrop-filter:blur(32px) saturate(170%);border-color:#d7f8ff50;box-shadow:0 28px 90px #0007,inset 0 1px #ffffff24}
+    .welcome{background:radial-gradient(ellipse at 20% 18%,#287c8277,transparent 42%),radial-gradient(ellipse at 85% 85%,#5652a377,transparent 42%),rgba(3,12,23,.48);backdrop-filter:blur(34px) saturate(155%);-webkit-backdrop-filter:blur(34px) saturate(155%)}
+    .welcome-card{background:linear-gradient(145deg,rgba(238,255,255,.19),rgba(174,226,255,.065));border:1px solid #e0fbff52;box-shadow:0 32px 110px #0006,inset 0 1px #ffffff50}
+    .welcome-mark{box-shadow:0 12px 48px #65e6c255,inset 0 1px #ffffff}
+    .toast{background:linear-gradient(135deg,rgba(11,32,49,.92),rgba(8,19,37,.88));backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-color:#d7f8ff48;box-shadow:0 12px 40px #0005,inset 0 1px #ffffff14}
+    :focus-visible{outline:2px solid #8cf5dc;outline-offset:3px}
+    @media(prefers-reduced-transparency:reduce){.sidebar,.searchbox,.route-input,.btn,.result,.map-chip,.map-tool,.ai-fab,.ai-panel,.welcome,.welcome-card,.toast{backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+  </style>
 </head>
 <body>
   <div class="welcome" id="welcome"><div class="welcome-card"><div class="welcome-mark">K</div><h2>KARTI</h2><p>Твой мир — ближе. Исследуй места, находи дороги и спрашивай ИИ-помощника о чём угодно.</p><button class="btn primary" id="openKarti" type="button">✦ Открыть KARTI</button><p class="welcome-note">Живая карта · Поиск мест · Маршруты · Голосовой помощник</p></div></div>\n  <main class="app">
@@ -162,7 +188,42 @@
       function renderResults(items){const root=$('results');$('resultCount').textContent=items.length+' мест';$('listTitle').textContent='Результаты поиска';if(!items.length){root.innerHTML='<div class="empty">Ничего не найдено. Попробуй другое название или добавь город.</div>';return}root.innerHTML=items.map((p,i)=>'<div class="result" data-index="'+i+'" tabindex="0" role="button"><div class="result-icon">⌖</div><div><strong>'+safeText(p.name||p.display_name.split(',')[0])+'</strong><small>'+safeText(p.display_name)+'</small></div></div>').join('');root.querySelectorAll('.result').forEach(el=>{const go=()=>selectPlace(items[Number(el.dataset.index)]);el.addEventListener('click',go);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}})})}
       function selectPlace(p){const lat=Number(p.lat),lon=Number(p.lon);if(!Number.isFinite(lat)||!Number.isFinite(lon))return;clearMarkers(searchMarkers);map.flyTo([lat,lon],Math.max(map.getZoom(),14),{duration:1});const m=L.marker([lat,lon],{icon:markerIcon}).addTo(map).bindPopup('<strong>'+safeText(p.name||p.display_name.split(',')[0])+'</strong><br>'+safeText(p.display_name)+'<br><span style="color:#91a0b8">'+lat.toFixed(5)+', '+lon.toFixed(5)+'</span>').openPopup();searchMarkers.push(m);$('coordsChip').textContent=lat.toFixed(3)+', '+lon.toFixed(3);$('toInput').value=$('toInput').value||p.display_name}
       $('searchForm').addEventListener('submit',async e=>{e.preventDefault();const q=$('searchInput').value.trim();if(q.length<2){toast('Введи хотя бы 2 символа для поиска');$('searchInput').focus();return}if(activeSearchController)activeSearchController.abort();const controller=new AbortController();activeSearchController=controller;const sequence=++searchSequence;$('searchInput').blur();$('listTitle').textContent='Ищем место…';$('resultCount').textContent='…';$('results').innerHTML='<div class="empty">Ищем на карте…</div>';try{const items=await geocode(q,{signal:controller.signal});if(sequence!==searchSequence)return;clearMarkers(searchMarkers);renderResults(items);if(items.length){const bounds=[];items.forEach(p=>{const ll=[Number(p.lat),Number(p.lon)];const m=L.marker(ll,{icon:markerIcon}).addTo(map).bindPopup('<strong>'+safeText(p.name||p.display_name.split(',')[0])+'</strong><br>'+safeText(p.display_name));m.on('click',()=>{$('toInput').value=p.display_name});searchMarkers.push(m);bounds.push(ll)});if(items.length===1)selectPlace(items[0]);else map.fitBounds(bounds,{padding:[45,45],maxZoom:13});}else toast('Место не найдено. Попробуй другое название.')}catch(err){if(err.name==='AbortError')return;if(sequence!==searchSequence)return;$('results').innerHTML='<div class="empty">Не получилось выполнить поиск. Проверь интернет и попробуй ещё раз.</div>';toast(err.message||'Ошибка поиска')}finally{if(sequence===searchSequence)activeSearchController=null}});
-      function locate(){if(!navigator.geolocation){toast('Этот браузер не поддерживает геолокацию');return}toast('Определяем твоё местоположение…');navigator.geolocation.getCurrentPosition(pos=>{const {latitude:lat,longitude:lon}=pos.coords;map.flyTo([lat,lon],16,{duration:1});if(currentMarker)map.removeLayer(currentMarker);currentMarker=L.circleMarker([lat,lon],{radius:9,color:'#fff',weight:3,fillColor:'#5eead4',fillOpacity:1}).addTo(map).bindPopup('<strong>Ты здесь</strong><br>'+lat.toFixed(5)+', '+lon.toFixed(5)).openPopup();$('fromInput').value=lat.toFixed(5)+', '+lon.toFixed(5);$('coordsChip').textContent=lat.toFixed(3)+', '+lon.toFixed(3);toast('Местоположение найдено')},err=>{toast(err.code===1?'Разреши доступ к геолокации в настройках браузера':'Не удалось определить местоположение')},{enableHighAccuracy:true,timeout:10000,maximumAge:30000})}
+      let locating = false;
+      function locationErrorMessage(err){
+        if(!window.isSecureContext && location.hostname!=='localhost') return 'Геолокация работает только через HTTPS. Открой опубликованный сайт по защищённой ссылке.';
+        if(err && err.code===1) return 'Доступ к местоположению запрещён. Разреши геолокацию для KARTI в настройках сайта или приложения и попробуй снова.';
+        if(err && err.code===2) return 'Устройство не смогло определить координаты. Включи службы геолокации/GPS и проверь интернет.';
+        if(err && err.code===3) return 'Поиск координат занял слишком много времени. Подойди к окну или улице и попробуй ещё раз.';
+        return 'Не удалось определить местоположение. Проверь разрешение геолокации и включи GPS.';
+      }
+      function locate(){
+        if(locating)return;
+        if(!navigator.geolocation){toast('Геолокация недоступна в этом окружении. Попробуй открыть KARTI в браузере.');return}
+        if(!window.isSecureContext && location.hostname!=='localhost'){toast('Для геолокации нужен HTTPS.');return}
+        locating=true;
+        const btns=[$('locateBtn'),$('mapLocate')];
+        btns.forEach(b=>{if(b){b.disabled=true;b.setAttribute('aria-busy','true')}});
+        toast('Ищем твоё местоположение… Разреши доступ, если появится запрос.');
+        const finish=()=>{locating=false;btns.forEach(b=>{if(b){b.disabled=false;b.removeAttribute('aria-busy')}})};
+        navigator.geolocation.getCurrentPosition(pos=>{
+          finish();
+          const {latitude:lat,longitude:lon,accuracy}=pos.coords;
+          map.flyTo([lat,lon],accuracy>1500?13:16,{duration:1});
+          if(currentMarker)map.removeLayer(currentMarker);
+          currentMarker=L.circleMarker([lat,lon],{radius:10,color:'#f4fffc',weight:3,fillColor:'#65e6c2',fillOpacity:1}).addTo(map).bindPopup('<strong>Ты здесь</strong><br>'+lat.toFixed(5)+', '+lon.toFixed(5)+'<br><small>Точность около '+Math.round(accuracy)+' м</small>').openPopup();
+          $('fromInput').value=lat.toFixed(5)+', '+lon.toFixed(5);
+          $('coordsChip').textContent='Ты здесь · ±'+Math.round(accuracy)+' м';
+          toast('Местоположение найдено');
+        },err=>{
+          finish();
+          const message=locationErrorMessage(err);
+          toast(message);
+          $('coordsChip').textContent='Местоположение не определено';
+          const root=$('results');
+          root.innerHTML='<div class="empty"><strong style="color:#e4f9f5">Не удалось найти тебя</strong><br>'+safeText(message)+'<br><br><button class="btn primary" id="retryLocate" type="button">Попробовать снова</button><br><br><span>Если доступ уже запрещён, нажми на значок настроек рядом с адресом сайта и разреши местоположение.</span></div>';
+          $('retryLocate')?.addEventListener('click',locate,{once:true});
+        },{enableHighAccuracy:false,timeout:20000,maximumAge:60000});
+      }
       $('locateBtn').addEventListener('click',locate);$('mapLocate').addEventListener('click',locate);$('resetBtn').addEventListener('click',()=>{map.flyTo([25,8],3);$('coordsChip').textContent='Масштабируй. Исследуй.'});$('zoomIn').addEventListener('click',()=>map.zoomIn());$('zoomOut').addEventListener('click',()=>map.zoomOut());
       map.on('click',e=>{const {lat,lng}=e.latlng;$('coordsChip').textContent=lat.toFixed(3)+', '+lng.toFixed(3);const m=L.marker(e.latlng,{icon:pointIcon}).addTo(map).bindPopup('<strong>Точка на карте</strong><br>'+lat.toFixed(5)+', '+lng.toFixed(5)+'<br><button id="setFrom" style="margin-top:7px;border:0;border-radius:7px;padding:7px 9px;background:#8b7cff;color:#111827;font-weight:700;cursor:pointer">Поставить как «Откуда»</button> <button id="setTo" style="margin-top:7px;border:0;border-radius:7px;padding:7px 9px;background:#5eead4;color:#111827;font-weight:700;cursor:pointer">Как «Куда»</button>').openPopup();pickedMarkers.push(m);m.on('popupopen',()=>{setTimeout(()=>{const a=$('setFrom'),b=$('setTo');if(a)a.onclick=()=>{$('fromInput').value=lat.toFixed(5)+', '+lng.toFixed(5);map.closePopup();toast('Начальная точка выбрана')};if(b)b.onclick=()=>{$('toInput').value=lat.toFixed(5)+', '+lng.toFixed(5);map.closePopup();toast('Конечная точка выбрана')}},0)})});
       $('swapBtn').addEventListener('click',()=>{const a=$('fromInput').value;$('fromInput').value=$('toInput').value;$('toInput').value=a});
