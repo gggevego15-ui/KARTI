@@ -1,0 +1,80 @@
+name: Build KARTI installers
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [pwa-install-ready]
+    paths:
+      - 'index.html'
+      - 'manifest.webmanifest'
+      - 'sw.js'
+      - 'icon.svg'
+      - 'package.json'
+      - 'capacitor.config.json'
+      - 'electron-main.cjs'
+      - 'scripts/**'
+      - '.github/workflows/build-installers.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  android-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Prepare web app
+        run: npm run build:web
+      - name: Create Android project
+        run: npx cap add android
+      - name: Sync Android project
+        run: npx cap sync android
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: KARTI-Android-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+
+  windows-installer:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Prepare web app
+        run: npm run build:web
+      - name: Build Windows installer
+        run: npm run dist:win
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: KARTI-Windows-EXE
+          path: dist/*.exe
+          if-no-files-found: error
+          retention-days: 14
