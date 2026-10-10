@@ -110,7 +110,6 @@ public partial class MainWindow : Window
                 FileName = payloadPath,
                 Arguments = "/S /D=" + _installFolder,
                 UseShellExecute = true,
-                Verb = "runas",
                 WindowStyle = ProcessWindowStyle.Hidden
             };
             using var process = Process.Start(start) ?? throw new InvalidOperationException("Не удалось запустить системный установщик.");
