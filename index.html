@@ -4,6 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#111827">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="KARTI">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <title>KARTI — исследуй мир</title>
   <meta name="description" content="KARTI — простая интерактивная карта для поиска мест и построения маршрутов.">
   <link rel="preconnect" href="https://unpkg.com">
@@ -30,7 +35,7 @@
       <header class="brand"><div class="logo">K</div><div><h1>KARTI</h1><p>Твой мир — ближе</p></div></header>
       <section class="search-wrap">
         <form id="searchForm" class="searchbox"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="searchInput" autocomplete="off" placeholder="Найти город, улицу, место..." aria-label="Поиск места"><span class="key">↵</span></form>
-        <div class="quick"><button id="locateBtn" class="btn" type="button"><span>◎</span> Моё место</button><button id="resetBtn" class="btn" type="button"><span>⌖</span> Весь мир</button></div>
+        <div class="quick"><button id="locateBtn" class="btn" type="button"><span>◎</span> Моё место</button><button id="resetBtn" class="btn" type="button"><span>⌖</span> Весь мир</button><button id="installBtn" class="btn" type="button" title="Установить KARTI на устройство">⇩ Установить</button></div>
       </section>
       <section class="section">
         <div class="section-title">Маршрут <span class="pill">Бета</span></div>
@@ -75,6 +80,34 @@
       $('swapBtn').addEventListener('click',()=>{const a=$('fromInput').value;$('fromInput').value=$('toInput').value;$('toInput').value=a});
       async function resolvePoint(q){const coord=q.trim().match(/^(-?\d+(?:\.\d+)?)[, ]+(-?\d+(?:\.\d+)?)$/);if(coord){const lat=Number(coord[1]),lon=Number(coord[2]);if(Math.abs(lat)<=90&&Math.abs(lon)<=180)return {lat,lon,name:q}}const results=await geocode(q);if(!results.length)throw new Error('Не нашли место: '+q);return {lat:Number(results[0].lat),lon:Number(results[0].lon),name:results[0].display_name}}
       $('routeBtn').addEventListener('click',async()=>{const from=$('fromInput').value.trim(),to=$('toInput').value.trim();if(!from||!to){toast('Заполни оба поля маршрута');return}const btn=$('routeBtn');btn.disabled=true;btn.textContent='Строим…';try{const [a,b]=await Promise.all([resolvePoint(from),resolvePoint(to)]);const url='https://router.project-osrm.org/route/v1/driving/'+a.lon+','+a.lat+';'+b.lon+','+b.lat+'?overview=full&geometries=geojson';const res=await fetch(url);if(!res.ok)throw new Error('Сервис маршрутов временно недоступен');const data=await res.json();if(data.code!=='Ok'||!data.routes.length)throw new Error('Маршрут между этими точками не найден');if(routeLayer)map.removeLayer(routeLayer);routeLayer=L.geoJSON({type:'Feature',geometry:data.routes[0].geometry,properties:{}},{style:{color:'#6b5cff',weight:6,opacity:.88,lineCap:'round',lineJoin:'round'}}).addTo(map);const start=L.marker([a.lat,a.lon],{icon:pointIcon}).addTo(map).bindPopup('<strong>Старт</strong><br>'+safeText(a.name));const end=L.marker([b.lat,b.lon],{icon:markerIcon}).addTo(map).bindPopup('<strong>Финиш</strong><br>'+safeText(b.name));pickedMarkers.push(start,end);map.fitBounds(routeLayer.getBounds(),{padding:[55,55]});const r=data.routes[0];$('listTitle').textContent='Твой маршрут';$('resultCount').textContent='Готово';$('results').innerHTML='<div class="result"><div class="result-icon">↗</div><div><strong>'+safeText(a.name.split(',')[0])+' → '+safeText(b.name.split(',')[0])+'</strong><small>На автомобиле · '+(r.distance/1000).toLocaleString('ru-RU',{maximumFractionDigits:1})+' км · около '+Math.round(r.duration/60)+' мин</small></div></div><div class="empty">Маршрут построен по дорожным данным OpenStreetMap через OSRM. Время и расстояние приблизительные.</div>';toast('Маршрут построен!')}catch(err){toast(err.message||'Не удалось построить маршрут')}finally{btn.disabled=false;btn.textContent='↗ Построить маршрут'}});
+      // Installable PWA support. Map tiles and search/routing services still require internet.
+      let deferredInstallPrompt = null;
+      const installBtn = $('installBtn');
+      window.addEventListener('beforeinstallprompt', event => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        installBtn.textContent = '⇩ Установить';
+      });
+      installBtn.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) {
+          toast(/iPhone|iPad|iPod/i.test(navigator.userAgent)
+            ? 'На iPhone: нажми «Поделиться» в Safari, затем «На экран Домой».'
+            : 'Открой меню браузера и выбери «Установить приложение» или «Добавить на главный экран».');
+          return;
+        }
+        deferredInstallPrompt.prompt();
+        const choice = await deferredInstallPrompt.userChoice;
+        if (choice && choice.outcome === 'accepted') toast('KARTI устанавливается на устройство');
+        deferredInstallPrompt = null;
+      });
+      window.addEventListener('appinstalled', () => toast('KARTI установлено!'));
+      if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {
+            // The app remains usable if service-worker registration is unavailable.
+          });
+        });
+      }
       $('searchInput').addEventListener('keydown',e=>{if(e.key==='Escape')$('searchInput').value=''});document.addEventListener('keydown',e=>{if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();$('searchInput').focus()}});
     })();
   </script>
