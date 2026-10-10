@@ -1,4 +1,7 @@
+using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -150,5 +153,9 @@ public partial class MainWindow : Window
         else { ErrorText.Text = "Не найден KARTI.exe. Попробуй установить приложение ещё раз."; ShowStage("error"); }
     }
     private void Minimize_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+    private void LeftPanel_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (e.OriginalSource is not System.Windows.Controls.Button) DragMove();
+    }
     private void Close_Click(object sender, RoutedEventArgs e) { if (!_installing) Close(); }
 }
