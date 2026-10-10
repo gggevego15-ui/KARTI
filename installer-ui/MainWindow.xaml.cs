@@ -45,7 +45,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            var wallpaper = Registry.CurrentUser.OpenSubKey(@"Control Panel\\Desktop")?.GetValue("Wallpaper") as string;
+            var wallpaper = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop")?.GetValue("Wallpaper") as string;
             if (string.IsNullOrWhiteSpace(wallpaper) || !File.Exists(wallpaper)) return;
             using var bitmap = new System.Drawing.Bitmap(wallpaper);
             long red = 0, green = 0, blue = 0, samples = 0;
