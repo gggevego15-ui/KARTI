@@ -18,8 +18,8 @@
   <Border x:Name="RootSurface" CornerRadius="28" Background="#EC07111F" BorderBrush="#6EFFFFFF" BorderThickness="1">
    <Border.Effect><DropShadowEffect Color="#5B66FF" BlurRadius="48" ShadowDepth="0" Opacity=".48"/></Border.Effect>
   </Border>
-  <Ellipse Width="420" Height="300" Fill="#353DF4D8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-160,-145,0,0"><Ellipse.Effect><BlurEffect Radius="75"/></Ellipse.Effect></Ellipse>
-  <Ellipse Width="380" Height="320" Fill="#354F49FF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-140,-140"><Ellipse.Effect><BlurEffect Radius="80"/></Ellipse.Effect></Ellipse>
+  <Ellipse x:Name="GlowLeft" Width="420" Height="300" Fill="#353DF4D8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-160,-145,0,0"><Ellipse.Effect><BlurEffect Radius="75"/></Ellipse.Effect></Ellipse>
+  <Ellipse x:Name="GlowRight" Width="380" Height="320" Fill="#354F49FF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-140,-140"><Ellipse.Effect><BlurEffect Radius="80"/></Ellipse.Effect></Ellipse>
   <Grid Margin="30,22,30,24">
    <Grid.RowDefinitions><RowDefinition Height="54"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="44"/></Grid.RowDefinitions>
    <Grid Grid.Row="0">
