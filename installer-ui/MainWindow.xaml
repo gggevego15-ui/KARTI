@@ -6,115 +6,90 @@
  Background="Transparent" ResizeMode="NoResize" Foreground="{StaticResource TextMain}"
  FontFamily="Segoe UI Variable, Segoe UI">
  <Window.Resources>
-  <Style x:Key="RoundGlass" TargetType="Border">
-   <Setter Property="CornerRadius" Value="22"/>
-   <Setter Property="BorderBrush" Value="#55FFFFFF"/>
-   <Setter Property="BorderThickness" Value="1"/>
-   <Setter Property="Background"><Setter.Value><LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-    <GradientStop Color="#38FFFFFF" Offset="0"/><GradientStop Color="#14B6E8F7" Offset="0.48"/><GradientStop Color="#1D9B8AFF" Offset="1"/>
-   </LinearGradientBrush></Setter.Value></Setter>
+  <Style x:Key="GlassCard" TargetType="Border">
+   <Setter Property="CornerRadius" Value="22"/><Setter Property="BorderBrush" Value="#55FFFFFF"/><Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Background"><Setter.Value><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#38FFFFFF" Offset="0"/><GradientStop Color="#14B6E8F7" Offset=".48"/><GradientStop Color="#1D9B8AFF" Offset="1"/></LinearGradientBrush></Setter.Value></Setter>
+  </Style>
+  <Style x:Key="TabButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="#18FFFFFF"/><Setter Property="BorderBrush" Value="#30FFFFFF"/><Setter Property="Padding" Value="16,9"/><Setter Property="FontSize" Value="12"/>
   </Style>
  </Window.Resources>
  <Grid>
-  <Border CornerRadius="28" Background="#EC07111F" BorderBrush="#6EFFFFFF" BorderThickness="1">
+  <Border x:Name="RootSurface" CornerRadius="28" Background="#EC07111F" BorderBrush="#6EFFFFFF" BorderThickness="1">
    <Border.Effect><DropShadowEffect Color="#5B66FF" BlurRadius="48" ShadowDepth="0" Opacity=".48"/></Border.Effect>
   </Border>
-  <Grid Margin="1">
-   <Grid.ColumnDefinitions><ColumnDefinition Width="292"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-   <Border CornerRadius="27,0,0,27" ClipToBounds="True" MouseLeftButtonDown="LeftPanel_MouseLeftButtonDown">
-    <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-     <GradientStop Color="#D51A7D87" Offset="0"/><GradientStop Color="#B80D3B59" Offset=".48"/><GradientStop Color="#C22B205F" Offset="1"/>
-    </LinearGradientBrush></Border.Background>
-    <Grid>
-     <Grid.Triggers>
-      <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-       <BeginStoryboard>
-        <Storyboard RepeatBehavior="Forever" AutoReverse="True">
-         <DoubleAnimation Storyboard.TargetName="GlowLine" Storyboard.TargetProperty="Opacity" From="0.12" To="0.75" Duration="0:0:3.2"/>
-        </Storyboard>
-       </BeginStoryboard>
-      </EventTrigger>
-     </Grid.Triggers>
-     <Ellipse Width="300" Height="300" Fill="#503DF4D8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-150,-90,0,0">
-      <Ellipse.Effect><BlurEffect Radius="65"/></Ellipse.Effect></Ellipse>
-     <Ellipse Width="260" Height="260" Fill="#624F49FF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-130,-75">
-      <Ellipse.Effect><BlurEffect Radius="75"/></Ellipse.Effect></Ellipse>
-     <Border x:Name="GlowLine" Height="1" Margin="18,0,18,0" VerticalAlignment="Center" Background="#D6FFFFFF" Opacity=".25"/>
-     <StackPanel Margin="28,32,24,28">
-      <Button Width="35" Height="35" Padding="0" HorizontalAlignment="Left" Background="#28FFFFFF" BorderBrush="#55FFFFFF" Click="Minimize_Click" ToolTip="Свернуть">—</Button>
-      <Border Width="92" Height="92" CornerRadius="28" BorderBrush="#A8FFFFFF" BorderThickness="1" Background="#42FFFFFF" Margin="0,52,0,24" HorizontalAlignment="Left">
-       <Grid>
-        <Ellipse Margin="8" Fill="#4BFFFFFF" Stroke="#70FFFFFF" StrokeThickness="1"/>
-        <TextBlock Text="K" FontSize="53" FontWeight="Light" Foreground="#E5FFF9" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-4,0,0"/>
-       </Grid>
-      </Border>
-      <TextBlock Text="KARTI" FontSize="34" FontWeight="SemiBold"/>
-      <TextBlock Text="LIQUID GLASS" FontSize="11" FontWeight="Bold" Foreground="#BFFFEFEA" Margin="2,5,0,0"/>
-      <Border Height="1" Background="#66FFFFFF" Margin="0,27,0,22"/>
-      <TextBlock Text="Твой мир.&#x0a;На твоих условиях." FontSize="22" FontWeight="Medium" LineHeight="31"/>
-      <TextBlock Text="Быстрый старт в новом пространстве KARTI." TextWrapping="Wrap" Foreground="#C5E3F1" FontSize="13" Margin="0,12,0,0" LineHeight="20"/>
-      <StackPanel Orientation="Horizontal" Margin="0,25,0,0">
-       <Ellipse Width="7" Height="7" Fill="#6CF6D9" Margin="0,0,8,0"/>
-       <TextBlock Text="СТЕКЛЯННЫЙ ИНТЕРФЕЙС" FontSize="9" Foreground="#D2FFF7" VerticalAlignment="Center"/>
-      </StackPanel>
-     </StackPanel>
-    </Grid>
+  <Ellipse Width="420" Height="300" Fill="#353DF4D8" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-160,-145,0,0"><Ellipse.Effect><BlurEffect Radius="75"/></Ellipse.Effect></Ellipse>
+  <Ellipse Width="380" Height="320" Fill="#354F49FF" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-140,-140"><Ellipse.Effect><BlurEffect Radius="80"/></Ellipse.Effect></Ellipse>
+  <Grid Margin="30,22,30,24">
+   <Grid.RowDefinitions><RowDefinition Height="54"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="44"/></Grid.RowDefinitions>
+   <Grid Grid.Row="0">
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+     <Border Width="38" Height="38" CornerRadius="13" Background="#3BFFFFFF" BorderBrush="#70FFFFFF" BorderThickness="1"><TextBlock Text="K" FontSize="25" FontWeight="Light" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-3,0,0"/></Border>
+     <StackPanel Margin="12,0,0,0" VerticalAlignment="Center"><TextBlock Text="KARTI" FontSize="19" FontWeight="SemiBold"/><TextBlock Text="LIQUID GLASS SETUP" FontSize="9" Foreground="#AFC9D9" Margin="1,1,0,0"/></StackPanel>
+    </StackPanel>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+     <Button x:Name="ThemeButton" Content="☼  Светлая тема" Style="{StaticResource TabButton}" Click="ThemeToggle_Click" Margin="0,0,12,0"/>
+     <Button Content="—" Width="38" Height="34" Padding="0" Background="#20FFFFFF" BorderBrush="#38FFFFFF" Click="Minimize_Click" Margin="0,0,7,0"/>
+     <Button Content="✕" Width="38" Height="34" Padding="0" Background="#20FFFFFF" BorderBrush="#38FFFFFF" Click="Close_Click"/>
+    </StackPanel>
+   </Grid>
+   <Border Grid.Row="1" Style="{StaticResource GlassCard}" CornerRadius="16" Padding="7" Margin="0,14,0,18">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+     <Button x:Name="InstallTab" Content="Установка" Style="{StaticResource TabButton}" Click="TabInstall_Click" Margin="3,0"/>
+     <Button x:Name="PlaceTab" Content="Место установки" Style="{StaticResource TabButton}" Click="TabPlace_Click" Margin="3,0"/>
+     <Button x:Name="AboutTab" Content="О KARTI" Style="{StaticResource TabButton}" Click="TabAbout_Click" Margin="3,0"/>
+    </StackPanel>
    </Border>
-   <Grid Grid.Column="1" Margin="32,24,28,26">
-    <Grid.RowDefinitions><RowDefinition Height="36"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-    <Grid>
-     <TextBlock Text="МАСТЕР УСТАНОВКИ" FontSize="10" Foreground="#A8C6D8" VerticalAlignment="Center"/>
-     <Button Content="✕" Width="36" Height="34" Padding="0" HorizontalAlignment="Right" Background="#20FFFFFF" BorderBrush="#38FFFFFF" Click="Close_Click"/>
-    </Grid>
-    <Grid Grid.Row="1" Margin="0,24,0,18">
-     <StackPanel x:Name="WelcomePanel" VerticalAlignment="Center">
-      <Border Style="{StaticResource RoundGlass}" Padding="13,7" HorizontalAlignment="Left" Margin="0,0,0,18" CornerRadius="12">
-       <TextBlock Text="✦  ВЕРСИЯ KARTI ДЛЯ WINDOWS" FontSize="10" Foreground="#D7FFF8"/>
-      </Border>
-      <TextBlock Text="Установка,&#x0a;но красиво." FontSize="37" FontWeight="SemiBold" LineHeight="44"/>
-      <TextBlock Text="Несколько мгновений — и KARTI будет готова к работе." FontSize="14" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,15,0,25" LineHeight="22"/>
-      <Border Style="{StaticResource RoundGlass}" Padding="17" Margin="0,0,0,18">
-       <StackPanel>
-        <TextBlock Text="ПАПКА УСТАНОВКИ" FontSize="10" Foreground="#B9D2E2"/>
-        <Grid Margin="0,10,0,0">
-         <TextBox x:Name="FolderBox" TextChanged="FolderBox_TextChanged" Background="#1BFFFFFF" Foreground="#F5FBFF" BorderBrush="#55FFFFFF" BorderThickness="1" Padding="11,10" FontSize="12" CaretBrush="White" SelectionBrush="#8075E7FF"/>
-         <Button Content="Обзор…" Width="88" Padding="7,8" HorizontalAlignment="Right" Click="Browse_Click" Margin="0,0,4,0" FontSize="12"/>
-        </Grid>
-       </StackPanel>
-      </Border>
-      <TextBlock Text="Создастся приложение KARTI и ярлык в меню «Пуск»." FontSize="11" Foreground="#9EB8CB" TextWrapping="Wrap"/>
-     </StackPanel>
-     <StackPanel x:Name="ProgressPanel" Visibility="Collapsed" VerticalAlignment="Center">
-      <TextBlock Text="Создаём твоё пространство" FontSize="28" FontWeight="SemiBold" TextWrapping="Wrap"/>
-      <TextBlock x:Name="StatusText" Text="Подготовка стеклянных панелей…" FontSize="13" Foreground="{StaticResource TextMuted}" Margin="0,14,0,25"/>
-      <Border Style="{StaticResource RoundGlass}" Padding="20">
-       <StackPanel>
-        <ProgressBar Height="5" IsIndeterminate="True" Background="#1FFFFFFF" Foreground="#6EF7DB" BorderThickness="0"/>
-        <TextBlock Text="Не закрывай это окно до завершения." FontSize="11" Foreground="#B8CEDD" Margin="0,16,0,0"/>
-       </StackPanel>
-      </Border>
-     </StackPanel>
-     <StackPanel x:Name="DonePanel" Visibility="Collapsed" VerticalAlignment="Center">
-      <Border Width="72" Height="72" CornerRadius="24" Background="#333BE8C6" BorderBrush="#887DFFE5" BorderThickness="1" HorizontalAlignment="Left" Margin="0,0,0,22">
-       <TextBlock Text="✓" FontSize="39" Foreground="#B8FFED" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-      </Border>
-      <TextBlock Text="KARTI готова." FontSize="34" FontWeight="SemiBold"/>
-      <TextBlock Text="Установка завершена. Можно отправляться." FontSize="14" Foreground="{StaticResource TextMuted}" Margin="0,12,0,0" TextWrapping="Wrap"/>
-     </StackPanel>
-     <StackPanel x:Name="ErrorPanel" Visibility="Collapsed" VerticalAlignment="Center">
-      <TextBlock Text="Не получилось установить" FontSize="27" FontWeight="SemiBold" TextWrapping="Wrap"/>
-      <TextBlock x:Name="ErrorText" TextWrapping="Wrap" Foreground="#FFD0DC" FontSize="13" Margin="0,14,0,0" LineHeight="21"/>
-     </StackPanel>
-    </Grid>
-    <Grid Grid.Row="2">
-     <TextBlock x:Name="FooterText" Text="KARTI • LIQUID GLASS EXPERIENCE" FontSize="9" Foreground="#7F9EB4" VerticalAlignment="Center"/>
-     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-      <Button x:Name="CancelButton" Content="Отмена" Background="#1FFFFFFF" BorderBrush="#35FFFFFF" Margin="0,0,10,0" Click="Close_Click"/>
-      <Button x:Name="InstallButton" Content="Установить KARTI  ↗" MinWidth="174" Click="Install_Click"/>
-      <Button x:Name="LaunchButton" Content="Запустить KARTI  ↗" MinWidth="174" Visibility="Collapsed" Click="Launch_Click"/>
-      <Button x:Name="RetryButton" Content="Повторить" MinWidth="130" Visibility="Collapsed" Click="Retry_Click"/>
-     </StackPanel>
-    </Grid>
+   <Grid Grid.Row="2" Margin="0,0,0,12">
+    <StackPanel x:Name="WelcomePanel" VerticalAlignment="Center" Margin="62,0">
+     <Border Style="{StaticResource GlassCard}" Padding="12,7" HorizontalAlignment="Left" Margin="0,0,0,17" CornerRadius="12"><TextBlock Text="✦  ВЕРСИЯ KARTI ДЛЯ WINDOWS" FontSize="10" Foreground="#D7FFF8"/></Border>
+     <TextBlock Text="Установка, но красиво." FontSize="34" FontWeight="SemiBold" TextWrapping="Wrap"/>
+     <TextBlock Text="Выбери место для KARTI и запусти установку в несколько кликов." FontSize="14" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,12,0,22" LineHeight="22"/>
+     <Border Style="{StaticResource GlassCard}" Padding="17">
+      <StackPanel><TextBlock Text="ПАПКА ИМЯ И ПУТЬ" FontSize="10" Foreground="#B9D2E2"/>
+       <Grid Margin="0,10,0,0"><TextBox x:Name="FolderBox" TextChanged="FolderBox_TextChanged" Background="#1BFFFFFF" Foreground="#F5FBFF" BorderBrush="#55FFFFFF" BorderThickness="1" Padding="11,10" FontSize="12" CaretBrush="White" SelectionBrush="#8075E7FF"/><Button Content="Обзор…" Width="88" Padding="7,8" HorizontalAlignment="Right" Click="Browse_Click" Margin="0,0,4,0" FontSize="12"/></Grid>
+      </StackPanel>
+     </Border>
+     <TextBlock Text="Можно изменить путь или имя конечной папки, например D:\Программы\KARTI." FontSize="11" Foreground="#A7C0D1" TextWrapping="Wrap" Margin="0,12,0,0"/>
+    </StackPanel>
+    <StackPanel x:Name="PlacePanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="62,0">
+     <TextBlock Text="Где будет жить KARTI?" FontSize="31" FontWeight="SemiBold" TextWrapping="Wrap"/>
+     <TextBlock Text="Укажи полный путь — последняя часть пути станет названием папки приложения." FontSize="14" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,12,0,22" LineHeight="22"/>
+     <Border Style="{StaticResource GlassCard}" Padding="18">
+      <StackPanel><TextBlock Text="НАЗВАНИЕ И МЕСТО" FontSize="10" Foreground="#B9D2E2"/>
+       <TextBox x:Name="PlacePathBox" TextChanged="PlacePathBox_TextChanged" Background="#1BFFFFFF" Foreground="#F5FBFF" BorderBrush="#55FFFFFF" BorderThickness="1" Padding="12" FontSize="13" Margin="0,10,0,10"/>
+       <TextBlock Text="Пример: C:\Users\ТЫ\Apps\KARTI-Home" Foreground="#A7C0D1" FontSize="11"/>
+       <Button Content="Выбрать папку…" HorizontalAlignment="Left" Click="Browse_Click" Margin="0,16,0,0"/>
+      </StackPanel>
+     </Border>
+     <TextBlock Text="Изменение здесь синхронизируется с вкладкой «Установка»." FontSize="11" Foreground="#A7C0D1" Margin="0,13,0,0" TextWrapping="Wrap"/>
+    </StackPanel>
+    <StackPanel x:Name="AboutPanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="62,0">
+     <TextBlock Text="KARTI, в своём стиле." FontSize="32" FontWeight="SemiBold" TextWrapping="Wrap"/>
+     <TextBlock Text="Установщик с многослойными стеклянными поверхностями, бирюзовыми бликами и мягким фиолетовым свечением." FontSize="14" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,12,0,22" LineHeight="22"/>
+     <Border Style="{StaticResource GlassCard}" Padding="18"><StackPanel><TextBlock Text="LIQUID GLASS" FontSize="11" FontWeight="Bold"/><TextBlock Text="Настрой внешний вид переключателем вверху. Установка запускает настоящий пакет KARTI, встроенный в установщик." FontSize="13" Foreground="{StaticResource TextMuted}" TextWrapping="Wrap" Margin="0,9,0,0" LineHeight="21"/></StackPanel></Border>
+    </StackPanel>
+    <StackPanel x:Name="ProgressPanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="62,0">
+     <TextBlock Text="Создаём твоё пространство" FontSize="28" FontWeight="SemiBold" TextWrapping="Wrap"/>
+     <TextBlock x:Name="StatusText" Text="Подготовка файлов…" FontSize="13" Foreground="{StaticResource TextMuted}" Margin="0,14,0,25"/>
+     <Border Style="{StaticResource GlassCard}" Padding="20"><StackPanel><ProgressBar Height="5" IsIndeterminate="True" Background="#1FFFFFFF" Foreground="#6EF7DB" BorderThickness="0"/><TextBlock Text="Не закрывай окно до завершения." FontSize="11" Foreground="#B8CEDD" Margin="0,16,0,0"/></StackPanel></Border>
+    </StackPanel>
+    <StackPanel x:Name="DonePanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="62,0">
+     <Border Width="72" Height="72" CornerRadius="24" Background="#333BE8C6" BorderBrush="#887DFFE5" BorderThickness="1" HorizontalAlignment="Left" Margin="0,0,0,22"><TextBlock Text="✓" FontSize="39" Foreground="#B8FFED" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+     <TextBlock Text="KARTI готова." FontSize="34" FontWeight="SemiBold"/><TextBlock Text="Установка завершена. Можно отправляться." FontSize="14" Foreground="{StaticResource TextMuted}" Margin="0,12,0,0" TextWrapping="Wrap"/>
+    </StackPanel>
+    <StackPanel x:Name="ErrorPanel" Visibility="Collapsed" VerticalAlignment="Center" Margin="62,0">
+     <TextBlock Text="Не получилось установить" FontSize="27" FontWeight="SemiBold" TextWrapping="Wrap"/><TextBlock x:Name="ErrorText" TextWrapping="Wrap" Foreground="#FFD0DC" FontSize="13" Margin="0,14,0,0" LineHeight="21"/>
+    </StackPanel>
+   </Grid>
+   <Grid Grid.Row="3">
+    <TextBlock x:Name="FooterText" Text="KARTI • LIQUID GLASS EXPERIENCE" FontSize="9" Foreground="#7F9EB4" VerticalAlignment="Center"/>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+     <Button x:Name="CancelButton" Content="Отмена" Background="#1FFFFFFF" BorderBrush="#35FFFFFF" Margin="0,0,10,0" Click="Close_Click"/>
+     <Button x:Name="InstallButton" Content="Установить KARTI  ↗" MinWidth="174" Click="Install_Click"/>
+     <Button x:Name="LaunchButton" Content="Запустить KARTI  ↗" MinWidth="174" Visibility="Collapsed" Click="Launch_Click"/>
+     <Button x:Name="RetryButton" Content="Повторить" MinWidth="130" Visibility="Collapsed" Click="Retry_Click"/>
+    </StackPanel>
    </Grid>
   </Grid>
  </Grid>
