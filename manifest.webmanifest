@@ -1,0 +1,22 @@
+{
+  "id": "./",
+  "name": "KARTI — карты и маршруты",
+  "short_name": "KARTI",
+  "description": "Интерактивные карты, поиск мест и автомобильные маршруты.",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b1020",
+  "theme_color": "#111827",
+  "categories": ["navigation", "travel", "utilities"],
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
