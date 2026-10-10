@@ -6,7 +6,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
     <AssemblyName>KARTI-Liquid-Glass-Setup</AssemblyName>
     <RootNamespace>KartiGlassInstaller</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
