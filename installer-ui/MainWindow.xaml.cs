@@ -84,7 +84,7 @@ public partial class MainWindow : Window
     {
         try
         {
-            var policy = new AccentPolicy { State = AccentEnableAcrylic, Flags = 2, GradientColor = unchecked((int)(_lightTheme ? 0xDCEAF4FA : 0xCC101827)), AnimationId = 0 };
+            var policy = new AccentPolicy { State = AccentEnableAcrylic, Flags = 2, GradientColor = unchecked((int)(_lightTheme ? 0xDCEAF4FA : 0x88101827)), AnimationId = 0 };
             var size = Marshal.SizeOf<AccentPolicy>();
             var pointer = Marshal.AllocHGlobal(size);
             try
@@ -168,7 +168,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            RootSurface.Background = new SolidColorBrush(Color.FromArgb(0xB8, 0x07, 0x11, 0x1F));
+            RootSurface.Background = new SolidColorBrush(Color.FromArgb(0x78, 0x10, 0x18, 0x2A));
             RootSurface.BorderBrush = new SolidColorBrush(Color.FromArgb(0x6E, 0xFF, 0xFF, 0xFF));
             RootSurface.Effect = new System.Windows.Media.Effects.DropShadowEffect { Color = Color.FromRgb(0x5B, 0x66, 0xFF), BlurRadius = 48, ShadowDepth = 0, Opacity = .48 };
             Foreground = new SolidColorBrush(Color.FromRgb(0xF5, 0xFB, 0xFF));
